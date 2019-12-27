@@ -1,15 +1,27 @@
 {
-  "name": "yeodemo",
-  "version": "1.0.0",
-  "description": "",
+  "name": "webpack-notebook",
+  "version": "1.0.1",
+  "description": "explore magic of webpack",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server --devtool source-map"
   },
-  "author": "",
+  "author": "lemonzhang",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemondreamtobe/webpack-notebook.git"
+  },
+  "keywords": [
+    "study",
+    "webpack",
+    "notebook"
+  ],
+  "bugs": {
+    "url": "https://github.com/lemondreamtobe/webpack-notebook/issues"
+  },
   "devDependencies": {
     "css-loader": "^3.4.0",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -19,5 +31,7 @@
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
-  }
+  },
+  "homepage": "https://github.com/lemondreamtobe/webpack-notebook#readme",
+  "dependencies": {}
 }
