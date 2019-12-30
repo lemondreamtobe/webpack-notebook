@@ -13,7 +13,7 @@ module.exports = {
   // Webpack 在寻找相对路径的文件时会以 context 为根目录，context 默认为执行启动 Webpack 时所在的当前工作目录
   // context 必须是一个绝对路径的字符串
   // 因为 Entry 的路径和其依赖的模块的路径可能采用相对于 context 的路径来描述，context 会影响到这些相对路径所指向的真实文件
-  context: path.resolve(__dirname, './demo1/dist'),
+  // context: path.resolve(__dirname, './demo1/dist'),
 
   output: {
     // 把所有依赖的模块合并输出到一个 bundle.js 文件
@@ -51,7 +51,7 @@ module.exports = {
       use-credentials: 在加载此脚本资源时会带上用户的 Cookies
       通常用设置 crossorigin 来获取异步加载的脚本执行时的详细错误信息
     */
-    crossOriginLoading: 'anonymous' | 'use-credentials',
+    // crossOriginLoading: 'anonymous' | 'use-credentials',
 
     // 配置以何种方式导出库 
     // !! 需要搭配library一起使用
@@ -59,7 +59,7 @@ module.exports = {
     // 默认值是var
     // 例子 输出var LibraryName = lib_code
     // 使用 LibraryName.doSomething();
-    libraryTarget: 'var' | 'commonjs' | 'commonjs2' | 'this' | 'window' | 'global',
+    // libraryTarget: 'var' | 'commonjs' | 'commonjs2' | 'this' | 'window' | 'global',
 
     // 配置导出库的名称
     library: 'LibraryDemo',
@@ -77,10 +77,10 @@ module.exports = {
         test: /\.css$/, // 条件匹配 也可以是正则数组
 
         // 只命中src目录里的css文件，加快 Webpack 搜索速度
-        include: path.resolve(__dirname, 'src'), // 也可以是路径数组
+        // include: path.resolve(__dirname, 'src'), // 也可以是路径数组
 
         // 排除 node_modules 目录下的文件
-        exclude: path.resolve(__dirname, 'node_modules'), // 也可以是路径数组 数组里的每项之间是或的关系，即文件路径符合数组中的任何一个条件就会被命中
+        // exclude: path.resolve(__dirname, 'node_modules'), // 也可以是路径数组 数组里的每项之间是或的关系，即文件路径符合数组中的任何一个条件就会被命中
 
         use: [ // 应用哪些loader
           MiniCssExtractPlugin.loader, // 一组 Loader 的执行顺序默认是从右到左执行，通过 enforce 选项可以让其中一个 Loader 的执行顺序放到最前或者最后
@@ -122,6 +122,7 @@ module.exports = {
     overlay: { errors: true }, // 出现编译器错误或警告时，在浏览器中显示全屏覆盖层
     publicPath: '/dist/', // 此路径下的打包文件可在浏览器中访问
     inline: true, // 在 dev-server 的两种不同模式之间切换。默认情况下，应用程序启用内联模式(inline mode)。这意味着一段处理实时重载的脚本被插入到你的包(bundle)中，并且构建消息将会出现在浏览器控制台。
+    open: true
   },
   resolve: {
     alias: {
