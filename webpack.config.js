@@ -1,6 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const { WebPlugin } = require('web-webpack-plugin');
 
 module.exports = {
   // JavaScript 执行入口文件 string | string[] | obj
@@ -8,7 +11,7 @@ module.exports = {
   // Webpack 会为每个生成的 Chunk 取一个名称，Chunk 的名称和 Entry 的配置有关：
   // 如果 entry 是一个 string 或 array，就只会生成一个 Chunk，这时 Chunk 的名称是 main；
   // 如果 entry 是一个 object，就可能会出现多个 Chunk，这时 Chunk 的名称是 object 键值对里键的名称。
-  entry: './demo1/main.js',
+  entry: './demo1/main.tsx',
 
   // Webpack 在寻找相对路径的文件时会以 context 为根目录，context 默认为执行启动 Webpack 时所在的当前工作目录
   // context 必须是一个绝对路径的字符串
@@ -97,6 +100,10 @@ module.exports = {
         test: /\.(gif|png|jpe?g|eot|woff|ttf|svg|pdf)$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.tsx$/,
+        loader: 'awesome-typescript-loader'
+      }
     ],
 
     // 可以让 Webpack 忽略对部分没采用模块化的文件的递归解析和处理，这样做的好处是能提高构建性能。 
@@ -107,12 +114,41 @@ module.exports = {
     
   },
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin({})],
+    minimizer: [new OptimizeCSSAssetsPlugin({}), new UglifyJsPlugin({
+      parallel: false,
+      uglifyOptions: {
+        compress: {
+          inline: false,
+        },
+        mangle: {
+          // 处理移动端网页在iOS10上因为变量重复声明导致页面白屏的问题
+          safari10: true,
+        },
+        output: {
+          // 最紧凑的输出
+          beautify: false,
+          // 删除所有的注释
+          comments: false,
+        },
+      }
+    })],
   },
-  plugins: [new MiniCssExtractPlugin({
-    filename: '[name].css',
-    chunkFilename: '[id].css',
-  })],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
+    new WebPlugin({
+      template: './demo1/template.html', // HTML 模版文件所在的文件路径
+      filename: 'index.html' // 输出的 HTML 的文件名称
+    }),
+    new DefinePlugin({
+      // 定义 NODE_ENV 环境变量为 production，以去除源码中只有开发时才需要的部分
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+  ],
   devServer: {
     contentBase: path.join(__dirname, '/demo1'), // 告诉服务器从哪个目录中提供内容
     compress: true, // 一切服务都启用 gzip 压缩
@@ -128,5 +164,6 @@ module.exports = {
     alias: {
       '@/common': path.join(process.cwd(), 'demo1/common'),
     },
+    extensions: ['.tsx', '.ts', '.js', '.json'],
   }
 };
